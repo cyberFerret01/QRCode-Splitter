@@ -1,0 +1,42 @@
+/*
+		 
+		QRCodeDS[currenty][currentx] = "+";
+		
+		while(QRCodeDS[currenty+1][currentx] != "=") {
+			while(QRCodeDS[currenty][currentx+1] != "=") {
+				
+				if(QRCodeDS[currenty][currentx] == "+" || QRCodeDS[currenty][currentx-1] == "=") {
+				if(QRCodeDS[currenty][currentx+1] == "_") {
+					
+					QRCodeDS[currenty][currentx+1] = "+";
+					
+				}
+				if(QRCodeDS[currenty][currentx-1] == "=") {QRCodeDS[currenty][currentx] = "+";}
+
+			}
+				currentx++;
+			}
+		currentx = 1;
+		currenty++;
+		}
+		
+		
+		for(int emptySy =0; emptySy <(QRCodeSizeX*QRCodeSizeY); emptySy++ ) {
+			while(QRCodeDS[emptySy][currenty] != "=" && QRCodeDS[currentx][currenty] != "=") {
+			
+			for(int emptySx =0; emptySx <(QRCodeSizeX*QRCodeSizeY); emptySx++ ) {
+				
+				
+		
+			if(QRCodeDS[currentx][currenty].contains("+")) {
+				currentx++;
+				if(QRCodeDS[currentx][currenty].contains("_"))
+				QRCodeDS[currentx][currenty] = "+";
+				
+			}
+				}
+			currenty++;	
+		}
+		
+		}
+		*/
