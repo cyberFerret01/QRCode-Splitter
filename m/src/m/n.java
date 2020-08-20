@@ -1,5 +1,8 @@
 package m;
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,10 +27,15 @@ public class n {
 		
 		int QRCodeSizeX = getGridSize(img,1)+2;
 		int QRCodeSizeY = getGridSize(img,0)+2;
+		
 
 		int d = getCodePoint(img, "d=\"");
+		int e = getCodePoint(img, "z\" fill=\"");
+		
+		String headerData = img.substring(0, d+1);
+		String footerData = img.substring(e- 7, img.length() );
 
-		//System.out.println("hi");
+		System.out.println(footerData);
 		
 		String[][] QRCodeDS =new String [QRCodeSizeY][QRCodeSizeX];
 		String[][] QRCodeDSSplit =new String [QRCodeSizeY][QRCodeSizeX];
@@ -208,20 +216,20 @@ public class n {
 							//break;
 						}else {paths[3] ++;
 						}
-						//24 26
+						/*
 						System.out.println("????????????????????????");
 						System.out.println(QRCodeDS[isY][isX+paths[0]]);
 						System.out.println(QRCodeDS[isY][isX-paths[1]]);						
 						System.out.println(QRCodeDS[isY+paths[2]][isX]);
 						System.out.println(QRCodeDS[isY-paths[3]][isX]);
-						
+						*/
 						
 					}
-					
+					/*
 					System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<");
 					System.out.println(chosenPath);
 					System.out.println(paths[chosenPath]);	
-					
+					*/
 					
 					for(int storeArray = 0; storeArray < paths[chosenPath]; storeArray++) {
 						if(chosenPath == 0) {
@@ -271,20 +279,62 @@ public class n {
 
 			}
 		
-		
+		String OriginalImage = headerData;
+		String SeperatedImage = headerData;
 		
 		for(int i =0; i <QRCodeSizeY; i++) {
 			for (int p = 0; p < QRCodeSizeX; p++) {
 		
-		if(QRCodeDS[i][p] != null) {		
-		System.out.print(QRCodeDS[i][p]);
+		if(QRCodeDS[i][p] != null) {
+			
+		OriginalImage = OriginalImage +	QRCodeDS[i][p];
+		//System.out.print(QRCodeDS[i][p]);
+			}
+		}
+		//System.out.println();
+		}
+		
+		for(int c =0; c <QRCodeSizeY; c++) {
+			for (int j = 0; j < QRCodeSizeX; j++) {
+		
+		if(QRCodeDSSplit[c][j] != null) {
+			
+			SeperatedImage = SeperatedImage +	QRCodeDSSplit[c][j];
+			//System.out.print(QRCodeDSSplit[c][j]);
 		}
 			}
-		System.out.println();
+		//System.out.println();
 			}
 		
-		System.out.println(" ");
+		//System.out.println(OriginalImage);
+		//System.out.println(SeperatedImage);
+		
+		OriginalImage = OriginalImage + footerData;
+		SeperatedImage = SeperatedImage + footerData;
 
+		System.out.println(OriginalImage);
+		System.out.println(SeperatedImage);
+
+
+		File OGsvgFile = new File("Full-QR.svg");   // File path for output
+		try {
+			Files.write(OGsvgFile.toPath(),                    // Write image to file
+					OriginalImage.getBytes(StandardCharsets.UTF_8));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println("error");
+		}
+		
+		File SPsvgFile = new File("Split-QR.svg");   // File path for output
+		try {
+			Files.write(SPsvgFile.toPath(),                    // Write image to file
+					SeperatedImage.getBytes(StandardCharsets.UTF_8));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println("error");
+		}
 
 	} 
 		
