@@ -20,10 +20,10 @@ public class n {
 		// TODO Auto-generated method stub
 		
 		// Simple operation
-		QrCode qr0 = QrCode.encodeText("Hello, world!", QrCode.Ecc.MEDIUM);
+		QrCode qr0 = QrCode.encodeText("https://www.youtube.com/watch?v=dQw4w9WgXcQ", QrCode.Ecc.MEDIUM);
 		String img = qr0.toSvgString(10);
 
-		
+		produceImage(img, "Full-image");
 		
 		int QRCodeSizeX = getGridSize(img,1)+2;
 		int QRCodeSizeY = getGridSize(img,0)+2;
@@ -35,135 +35,14 @@ public class n {
 		String headerData = img.substring(0, d+1);
 		String footerData = img.substring(e- 7, img.length() );
 
-		System.out.println(footerData);
+		//System.out.println(footerData);
 		
 		String[][] QRCodeDS =new String [QRCodeSizeY][QRCodeSizeX];
 		String[][] QRCodeDSSplit =new String [QRCodeSizeY][QRCodeSizeX];
 		
-		for(int intial = 0; intial < QRCodeSizeY; intial++) {
-			Arrays.fill(QRCodeDS[intial], "_");
-			
-		}
-		for(int intial = 0; intial <= QRCodeSizeY-1; intial++) {
-			if(intial == 0||intial == QRCodeSizeY-1) {
-			Arrays.fill(QRCodeDS[intial], "=");
-			
-			}
-			QRCodeDS[intial][0] = "=";
-			QRCodeDS[intial][QRCodeSizeX-1] = "=";
-		}
 		
 		
-		String dataString = getData(img,'\"',d+1)+" ";
-	//	String phrase = getData(dataString,' ',0);
-		//System.out.println(phrase);
-		
-		///processing to find xy
-		//int s1 = getData(phrase,0);
-		//System.out.println(s1);
-		
-		
-		//System.out.println(dataString);
-		
-		while (dataString.length() > 14) {
-			String phrase = getData(dataString,' ',0);
-			QRCodeDS[getData(phrase,1)][getData(phrase,0)] = phrase;
-			/*
-			System.out.println(" ");
-			System.out.print(getData(phrase,1));
-			System.out.println(" "+getData(phrase,0));
-			System.out.println(" " + phrase);
-			System.out.println(" "); */
-			dataString = dataString.substring(phrase.length()+1);
-
-		}
-		
-		for(int y = 0; y < QRCodeSizeY; y++) {
-			
-			for(int x = 0; x < QRCodeSizeX; x++) {
-				
-				if(QRCodeDS[y][x].contains("=")) continue;
-				String arrayCont = QRCodeDS[y][x];
-				if(x ==30 && y == 27) {
-					
-					int kkp = 0;
-					
-				}
-				if(arrayCont.contains("_")) {
-					
-					int setupPaths [] = {0,0,0,0};
-					boolean validPath = false;
-					
-					while(QRCodeDS[y+setupPaths[0]][x] != null && QRCodeDS[y+setupPaths[0]][x].length() < 3) {
-						
-						if(QRCodeDS[y+setupPaths[0]][x] == "=" ||QRCodeDS[y+setupPaths[0]][x] == "+") {
-							validPath = true;
-							break;
-						}
-						setupPaths[0]--;
-						}
-					while(QRCodeDS[y+setupPaths[1]][x] != null && QRCodeDS[y+setupPaths[1]][x].length() < 3) {
-						
-						if(QRCodeDS[y+setupPaths[1]][x] == "=" ||QRCodeDS[y+setupPaths[1]][x] == "+") {
-							validPath = true;
-							break;
-						}
-						setupPaths[1]++;
-						}
-					while(QRCodeDS[y][x+setupPaths[2]] != null && QRCodeDS[y][x+setupPaths[2]].length() < 3) {
-						
-						if(QRCodeDS[y][x+setupPaths[2]] == "=" ||QRCodeDS[y][x+setupPaths[2]] == "+") {
-							validPath = true;
-							break;
-						}
-						setupPaths[2]++;
-						}
-					while(QRCodeDS[y][x+setupPaths[3]] != null && QRCodeDS[y][x+setupPaths[3]].length() < 3) {
-						
-						if(QRCodeDS[y][x+setupPaths[3]] == "=" ||QRCodeDS[y][x+setupPaths[3]] == "+") {
-							validPath = true;
-							break;
-						}
-						setupPaths[3]--;
-						}
-					
-					/*System.out.println(setupPaths[0]);
-					System.out.println(setupPaths[1]);
-					System.out.println(setupPaths[2]);
-					System.out.println(setupPaths[3]); */
-					
-						// System.out.println(validPath);
-					
-						int chosenDirection =999999;
-						int op = 0;
-						
-						if(validPath == true) {
-							QRCodeDS[y][x] = "+";
-						}
-						
-					/*
-					for(int setupArray = 3; setupArray <5 ; setupArray++) {
-						
-						
-						if(QRCodeDS[y-setupArray][x] == null||QRCodeDS[y-setupArray][x].length() > 3)break;
-						if(QRCodeDS[y+setupArray][x] == null||QRCodeDS[y][x-setupArray].length() > 3)break;
-						if(QRCodeDS[y][x+setupArray] == null|| QRCodeDS[y+setupArray][x].length() > 3)break;
-						if(QRCodeDS[y][x-setupArray] == null||QRCodeDS[y][x+setupArray].length() > 3) break;
-						
-						if(QRCodeDS[y-1][x]==("=")||QRCodeDS[y][x-1]==("=")) QRCodeDS[y][x] = "+";
-						if(QRCodeDS[y-1][x].contains("+")||QRCodeDS[y][x-1].contains("+")) QRCodeDS[y][x] = "+";
-						if(QRCodeDS[y+1][x].contains("=")||QRCodeDS[y][x-1].contains("=")) QRCodeDS[y][x] = "+";
-						if(QRCodeDS[y+1][x].contains("+")||QRCodeDS[y][x-1].contains("+")) QRCodeDS[y][x] = "+";	
-						
-					}
-					*/
-					
-					
-				}
-			}
-		}
-		
-		
+		setupArray(QRCodeDS, QRCodeSizeY, QRCodeSizeX, d, img);
 			
 	
 		int g =0;
@@ -312,29 +191,15 @@ public class n {
 		OriginalImage = OriginalImage + footerData;
 		SeperatedImage = SeperatedImage + footerData;
 
-		System.out.println(OriginalImage);
-		System.out.println(SeperatedImage);
+		//System.out.println(OriginalImage);
+		//System.out.println(SeperatedImage);
 
 
-		File OGsvgFile = new File("Full-QR.svg");   // File path for output
-		try {
-			Files.write(OGsvgFile.toPath(),                    // Write image to file
-					OriginalImage.getBytes(StandardCharsets.UTF_8));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.out.println("error");
-		}
+
 		
-		File SPsvgFile = new File("Split-QR.svg");   // File path for output
-		try {
-			Files.write(SPsvgFile.toPath(),                    // Write image to file
-					SeperatedImage.getBytes(StandardCharsets.UTF_8));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.out.println("error");
-		}
+		produceImage(OriginalImage, "QRimage");
+		produceImage(SeperatedImage, "QRimageSplit");
+		
 
 	} 
 		
@@ -343,9 +208,146 @@ public class n {
 
 
 
-	
+	public static void setupArray(String[] QRCodeDS[], int QRCodeSizeY, int QRCodeSizeX, int d, String img) {
+		
+		for(int intial = 0; intial < QRCodeSizeY; intial++) {
+			Arrays.fill(QRCodeDS[intial], "_");
+			
+		}
+		for(int intial = 0; intial <= QRCodeSizeY-1; intial++) {
+			if(intial == 0||intial == QRCodeSizeY-1) {
+			Arrays.fill(QRCodeDS[intial], "=");
+			
+			}
+			QRCodeDS[intial][0] = "=";
+			QRCodeDS[intial][QRCodeSizeX-1] = "=";
+		}
+		
+		
+		String dataString = getData(img,'\"',d+1)+" ";
+	//	String phrase = getData(dataString,' ',0);
+		//System.out.println(phrase);
+		
+		///processing to find xy
+		//int s1 = getData(phrase,0);
+		//System.out.println(s1);
+		
+		
+		//System.out.println(dataString);
+		
+		while (dataString.length() > 14) {
+			String phrase = getData(dataString,' ',0);
+			QRCodeDS[getData(phrase,1)][getData(phrase,0)] = phrase;
+			/*
+			System.out.println(" ");
+			System.out.print(getData(phrase,1));
+			System.out.println(" "+getData(phrase,0));
+			System.out.println(" " + phrase);
+			System.out.println(" "); */
+			dataString = dataString.substring(phrase.length()+1);
 
+		}
+		
+		for(int y = 0; y < QRCodeSizeY; y++) {
+			
+			for(int x = 0; x < QRCodeSizeX; x++) {
+				
+				if(QRCodeDS[y][x].contains("=")) continue;
+				String arrayCont = QRCodeDS[y][x];
+				if(x ==30 && y == 27) {
+					
+					int kkp = 0;
+					
+				}
+				if(arrayCont.contains("_")) {
+					
+					int setupPaths [] = {0,0,0,0};
+					boolean validPath = false;
+					
+					while(QRCodeDS[y+setupPaths[0]][x] != null && QRCodeDS[y+setupPaths[0]][x].length() < 3) {
+						
+						if(QRCodeDS[y+setupPaths[0]][x] == "=" ||QRCodeDS[y+setupPaths[0]][x] == "+") {
+							validPath = true;
+							break;
+						}
+						setupPaths[0]--;
+						}
+					while(QRCodeDS[y+setupPaths[1]][x] != null && QRCodeDS[y+setupPaths[1]][x].length() < 3) {
+						
+						if(QRCodeDS[y+setupPaths[1]][x] == "=" ||QRCodeDS[y+setupPaths[1]][x] == "+") {
+							validPath = true;
+							break;
+						}
+						setupPaths[1]++;
+						}
+					while(QRCodeDS[y][x+setupPaths[2]] != null && QRCodeDS[y][x+setupPaths[2]].length() < 3) {
+						
+						if(QRCodeDS[y][x+setupPaths[2]] == "=" ||QRCodeDS[y][x+setupPaths[2]] == "+") {
+							validPath = true;
+							break;
+						}
+						setupPaths[2]++;
+						}
+					while(QRCodeDS[y][x+setupPaths[3]] != null && QRCodeDS[y][x+setupPaths[3]].length() < 3) {
+						
+						if(QRCodeDS[y][x+setupPaths[3]] == "=" ||QRCodeDS[y][x+setupPaths[3]] == "+") {
+							validPath = true;
+							break;
+						}
+						setupPaths[3]--;
+						}
+					
+					/*System.out.println(setupPaths[0]);
+					System.out.println(setupPaths[1]);
+					System.out.println(setupPaths[2]);
+					System.out.println(setupPaths[3]); */
+					
+						// System.out.println(validPath);
+					
+						int chosenDirection =999999;
+						int op = 0;
+						
+						if(validPath == true) {
+							QRCodeDS[y][x] = "+";
+						}
+						
+					/*
+					for(int setupArray = 3; setupArray <5 ; setupArray++) {
+						
+						
+						if(QRCodeDS[y-setupArray][x] == null||QRCodeDS[y-setupArray][x].length() > 3)break;
+						if(QRCodeDS[y+setupArray][x] == null||QRCodeDS[y][x-setupArray].length() > 3)break;
+						if(QRCodeDS[y][x+setupArray] == null|| QRCodeDS[y+setupArray][x].length() > 3)break;
+						if(QRCodeDS[y][x-setupArray] == null||QRCodeDS[y][x+setupArray].length() > 3) break;
+						
+						if(QRCodeDS[y-1][x]==("=")||QRCodeDS[y][x-1]==("=")) QRCodeDS[y][x] = "+";
+						if(QRCodeDS[y-1][x].contains("+")||QRCodeDS[y][x-1].contains("+")) QRCodeDS[y][x] = "+";
+						if(QRCodeDS[y+1][x].contains("=")||QRCodeDS[y][x-1].contains("=")) QRCodeDS[y][x] = "+";
+						if(QRCodeDS[y+1][x].contains("+")||QRCodeDS[y][x-1].contains("+")) QRCodeDS[y][x] = "+";	
+						
+					}
+					*/
+					
+					
+				}
+			}
+		}
+		
+	}
 
+	public static void produceImage(String data, String nameOfFile) {
+		
+		File File = new File(nameOfFile+".svg");   // File path for output
+		try {
+			Files.write(File.toPath(),                    // Write image to file
+					data.getBytes(StandardCharsets.UTF_8));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println("error");
+		}
+		
+	}
 	
 	public static int getData(String data, int xy) {
 		int flag1 =0;
