@@ -1,4 +1,6 @@
 package m;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -9,18 +11,68 @@ import java.util.List;
 import java.util.Stack;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Dimension;
+import java.awt.Event;
 
+//import QRCode.testCode.ListenForButton;
 import io.nayuki.qrcodegen.*;
 
 
 
-public class n {
+public class n extends JFrame{
+	
+	JPanel thePanel = new JPanel();
+    JLabel label1 = new JLabel("Tell me something");
+    JButton button = new JButton("button");
+    JTextArea dataToEncode = new JTextArea(5,20);
+    
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+		new n ();
 		// Simple operation
-		QrCode qr0 = QrCode.encodeText("https://www.youtube.com/watch?v=dQw4w9WgXcQ", QrCode.Ecc.MEDIUM);
+
+		
+
+	} 
+	
+	public n() {
+		
+		this.setSize(400, 400);
+		dataToEncode.setLineWrap(true);
+		dataToEncode.setWrapStyleWord(true);
+		JScrollPane scrollbar1 = new JScrollPane(dataToEncode);
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Dimension dim = tk.getScreenSize();
+		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        label1.setText("New Text");
+
+        label1.setToolTipText("Doesn't do anything");
+        
+        //thePanel.add(label1);
+        thePanel.add(dataToEncode);
+		
+		thePanel.add(scrollbar1);
+		thePanel.add(button);
+		this.add(thePanel);
+		this.setVisible(true);
+		
+		Listener listenerB = new Listener();
+		
+		button.addActionListener(listenerB);
+		
+
+	} 
+
+	public static void splitQRCodes (String encodingString) {
+		
+		QrCode qr0 = QrCode.encodeText(encodingString, QrCode.Ecc.MEDIUM);
 		String img = qr0.toSvgString(10);
 
 		produceImage(img, "Full-image");
@@ -197,14 +249,10 @@ public class n {
 
 
 		
-		produceImage(OriginalImage, "QRimage");
-		produceImage(SeperatedImage, "QRimageSplit");
+		produceImage(OriginalImage, "QR-image-split-1");
+		produceImage(SeperatedImage, "QR-image-split-2");
 		
-
-	} 
-		
-
-		
+	}	
 
 
 
@@ -437,5 +485,20 @@ public class n {
 		return 0;
 		
 	}
+	
+	private class Listener implements ActionListener {
+
+		
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == button) {
+				
+				splitQRCodes(dataToEncode.getText());
+				
+				
+			}
+			
+		}
+	}
+	
 	
 }
