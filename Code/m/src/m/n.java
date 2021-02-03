@@ -72,7 +72,7 @@ public class n extends JFrame{
 
 	public static void splitQRCodes (String encodingString) {
 		
-		QrCode qr0 = QrCode.encodeText(encodingString, QrCode.Ecc.MEDIUM);
+		QrCode qr0 = QrCode.encodeText(encodingString, QrCode.Ecc.LOW);
 		String img = qr0.toSvgString(10);
 
 		produceImage(img, "Full-image");
